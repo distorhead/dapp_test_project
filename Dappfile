@@ -1,0 +1,18 @@
+dimg_group do
+  docker.from 'ubuntu:16.04'
+  docker.workdir '/app'
+
+  chef.recipe 'main'
+
+  git do
+    add '/' do
+      to '/app'
+    end
+  end
+
+  dimg 'frontend' do
+    chef.recipe 'nginx'
+    docker.expose 8080
+    docker.user 'app'
+  end
+end
